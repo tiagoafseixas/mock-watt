@@ -32,7 +32,7 @@ Historically, testing these integrations meant fighting with cryptography and bu
 ### 2. Installation
 Clone the repository and install the required dependencies:
 ```bash
-git clone [https://github.com/your-org/mock-watt.git](https://github.com/your-org/mock-watt.git)
+git clone [https://github.com/tiagoafseixas/mock-watt.git](https://github.com/tiagoafseixas/mock-watt.git)
 cd mock-watt
 python -m venv venv
 source venv/bin/activate  # On Windows: venv\Scripts\activate
