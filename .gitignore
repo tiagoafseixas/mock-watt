@@ -208,4 +208,6 @@ __marimo__/
 
 data/active_schemas/**
 data/certs/**
+data/outbound/*
+data/inbound/*
 tests/certs/*

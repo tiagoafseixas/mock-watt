@@ -17,7 +17,7 @@ Historically, testing these integrations meant fighting with cryptography and bu
 
 ## ✨ Current Features
 
-* **IEC 62325-504 Transport Simulation:** Natively acts as a standardized SOAP web service, exposing standard B2B endpoints (e.g., `PutMessage`).
+* **IEC 62325-504 Transport Simulation:** Natively acts as a standardized SOAP 1.2 web service, building IEC TC57 `RequestMessage` envelopes with Verb, Noun, and Timestamp headers.
 * **Enterprise-Grade Cryptography:** Out-of-the-box verification of W3C XML Digital Signatures (XML-DSig) and Exclusive XML Canonicalization (C14N) using `signxml`.
 * **Strict mTLS Enforcement:** Simulates a secure gateway requiring X.509 client certificate authentication.
 * **Dynamic Business Payload Validation (IEC 62325-451 / CIM):** Payload-agnostic architecture. Upload any specific ENTSO-E or local market `.xsd` schema, and Mock-Watt will instantly validate the inner XML payload, catching malformed UUIDs or incorrect ISO 8601 timestamps in milliseconds.
@@ -58,6 +58,83 @@ Start the Mock-Watt Uvicorn server, which will launch the mTLS-secured SOAP endp
 python mock_watt/main.py
 ```
 *The server is now listening on `https://localhost:8443` and ready to receive your platform's signed SOAP messages.*
+
+---
+
+## 🖥️ CLI Reference — `mock-watt send`
+
+The `send` command signs a CIM XML payload, wraps it in a SOAP 1.2 + IEC TC57 `RequestMessage` envelope, and transmits it via mTLS.
+
+```bash
+mock-watt send [OPTIONS]
+```
+
+### Required arguments
+
+| Argument | Description |
+|---|---|
+| `--payload PATH` | Path to the raw CIM XML document to send |
+| `--url URL` | Target HTTPS endpoint |
+| `--cert PATH` | Client certificate for mTLS (`.pem`) |
+| `--key PATH` | Private key for mTLS (`.key`) |
+
+### Optional arguments
+
+| Argument | Default | Description |
+|---|---|---|
+| `--ca PATH` | — | Root CA certificate for server verification. If omitted, server certificate verification is skipped |
+| `--verb VERB` | `created` | IEC TC57 `mes:Verb` placed in the SOAP `RequestMessage` header |
+| `--noun NOUN` | *(auto-detected)* | IEC TC57 `mes:Noun` placed in the SOAP `RequestMessage` header. Defaults to the root element name of the payload (e.g. `MensagemOferBandaFRR`) |
+| `--store-request` | off | Save the outbound SOAP envelope to `data/outbound/<name>_<timestamp>.xml` |
+| `--store-response` | off | Save the raw server response to `data/inbound/<name>_<timestamp>_response.xml` |
+
+### SOAP envelope structure
+
+Each `send` invocation produces a SOAP 1.2 envelope following the IEC TC57 `RequestMessage` framing:
+
+```xml
+<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope"
+               xmlns:mes="http://iec.ch/TC57/2011/schema/message">
+  <soap:Header/>
+  <soap:Body>
+    <mes:RequestMessage>
+      <mes:Header>
+        <mes:Verb>created</mes:Verb>
+        <mes:Noun>MensagemOferBandaFRR</mes:Noun>
+        <mes:Timestamp>2026-03-23T11:04:09Z</mes:Timestamp>
+      </mes:Header>
+      <mes:Payload>
+        <!-- signed CIM XML document -->
+      </mes:Payload>
+    </mes:RequestMessage>
+  </soap:Body>
+</soap:Envelope>
+```
+
+### Examples
+
+Minimal — noun auto-detected from the payload root element:
+```bash
+mock-watt send \
+  --payload data/MensagemOferBandaFRR.xml \
+  --url https://localhost:8443/ws504 \
+  --cert data/certs/mock-watt.pem \
+  --key data/certs/mock-watt.key
+```
+
+Full — all options explicit, store both request and response:
+```bash
+mock-watt send \
+  --payload data/MensagemOferBandaFRR.xml \
+  --url https://localhost:8443/ws504 \
+  --cert data/certs/mock-watt.pem \
+  --key data/certs/mock-watt.key \
+  --ca data/certs/rootCA.pem \
+  --verb created \
+  --noun MensagemOferBandaFRR \
+  --store-request \
+  --store-response
+```
 
 ## 🏗️ The Technology Stack
 * **Routing:** FastAPI + Uvicorn
