@@ -207,7 +207,13 @@ marimo/_lsp/
 __marimo__/
 
 data/active_schemas/**
+data/payloads/**
 data/certs/**
 data/outbound/*
 data/inbound/*
 tests/certs/*
+
+# AI Agents Folders and Files
+.claude
+GEMINI.md
+AGENTS.md

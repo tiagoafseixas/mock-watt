@@ -1,0 +1,589 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<MensagemNecBandaFRR>
+    <Identificador v="necBandaFRR_20260323.2" />
+    <Versao v="1" />
+    <HoraEnvio v="2026-03-23 16:14:57" />
+    <DiaMercado v="2026-03-23" />
+    <Horizonte v="2026-03-22T23:00Z/2026-03-23T23:00Z" />
+    <UnidadeMedida v="MW" />
+    <Periodo>
+        <IntervaloTempo v="2026-03-22T23:00Z/2026-03-23T23:00Z" />
+        <DuracaoIntervalo v="PT15M" />
+        <Intervalo>
+            <NumeroPeriodo v="1" />
+            <BandaSubir v="300" />
+            <BandaDescer v="300" />
+            <BandaMinima v="1" />
+        </Intervalo>
+        <Intervalo>
+            <NumeroPeriodo v="2" />
+            <BandaSubir v="300" />
+            <BandaDescer v="300" />
+            <BandaMinima v="1" />
+        </Intervalo>
+        <Intervalo>
+            <NumeroPeriodo v="3" />
+            <BandaSubir v="300" />
+            <BandaDescer v="300" />
+            <BandaMinima v="1" />
+        </Intervalo>
+        <Intervalo>
+            <NumeroPeriodo v="4" />
+            <BandaSubir v="300" />
+            <BandaDescer v="300" />
+            <BandaMinima v="1" />
+        </Intervalo>
+        <Intervalo>
+            <NumeroPeriodo v="5" />
+            <BandaSubir v="300" />
+            <BandaDescer v="300" />
+            <BandaMinima v="1" />
+        </Intervalo>
+        <Intervalo>
+            <NumeroPeriodo v="6" />
+            <BandaSubir v="300" />
+            <BandaDescer v="300" />
+            <BandaMinima v="1" />
+        </Intervalo>
+        <Intervalo>
+            <NumeroPeriodo v="7" />
+            <BandaSubir v="300" />
+            <BandaDescer v="300" />
+            <BandaMinima v="1" />
+        </Intervalo>
+        <Intervalo>
+            <NumeroPeriodo v="8" />
+            <BandaSubir v="300" />
+            <BandaDescer v="300" />
+            <BandaMinima v="1" />
+        </Intervalo>
+        <Intervalo>
+            <NumeroPeriodo v="9" />
+            <BandaSubir v="300" />
+            <BandaDescer v="300" />
+            <BandaMinima v="1" />
+        </Intervalo>
+        <Intervalo>
+            <NumeroPeriodo v="10" />
+            <BandaSubir v="300" />
+            <BandaDescer v="300" />
+            <BandaMinima v="1" />
+        </Intervalo>
+        <Intervalo>
+            <NumeroPeriodo v="11" />
+            <BandaSubir v="300" />
+            <BandaDescer v="300" />
+            <BandaMinima v="1" />
+        </Intervalo>
+        <Intervalo>
+            <NumeroPeriodo v="12" />
+            <BandaSubir v="300" />
+            <BandaDescer v="300" />
+            <BandaMinima v="1" />
+        </Intervalo>
+        <Intervalo>
+            <NumeroPeriodo v="13" />
+            <BandaSubir v="300" />
+            <BandaDescer v="300" />
+            <BandaMinima v="1" />
+        </Intervalo>
+        <Intervalo>
+            <NumeroPeriodo v="14" />
+            <BandaSubir v="300" />
+            <BandaDescer v="300" />
+            <BandaMinima v="1" />
+        </Intervalo>
+        <Intervalo>
+            <NumeroPeriodo v="15" />
+            <BandaSubir v="300" />
+            <BandaDescer v="300" />
+            <BandaMinima v="1" />
+        </Intervalo>
+        <Intervalo>
+            <NumeroPeriodo v="16" />
+            <BandaSubir v="300" />
+            <BandaDescer v="300" />
+            <BandaMinima v="1" />
+        </Intervalo>
+        <Intervalo>
+            <NumeroPeriodo v="17" />
+            <BandaSubir v="300" />
+            <BandaDescer v="300" />
+            <BandaMinima v="1" />
+        </Intervalo>
+        <Intervalo>
+            <NumeroPeriodo v="18" />
+            <BandaSubir v="300" />
+            <BandaDescer v="300" />
+            <BandaMinima v="1" />
+        </Intervalo>
+        <Intervalo>
+            <NumeroPeriodo v="19" />
+            <BandaSubir v="300" />
+            <BandaDescer v="300" />
+            <BandaMinima v="1" />
+        </Intervalo>
+        <Intervalo>
+            <NumeroPeriodo v="20" />
+            <BandaSubir v="300" />
+            <BandaDescer v="300" />
+            <BandaMinima v="1" />
+        </Intervalo>
+        <Intervalo>
+            <NumeroPeriodo v="21" />
+            <BandaSubir v="300" />
+            <BandaDescer v="300" />
+            <BandaMinima v="1" />
+        </Intervalo>
+        <Intervalo>
+            <NumeroPeriodo v="22" />
+            <BandaSubir v="300" />
+            <BandaDescer v="300" />
+            <BandaMinima v="1" />
+        </Intervalo>
+        <Intervalo>
+            <NumeroPeriodo v="23" />
+            <BandaSubir v="300" />
+            <BandaDescer v="300" />
+            <BandaMinima v="1" />
+        </Intervalo>
+        <Intervalo>
+            <NumeroPeriodo v="24" />
+            <BandaSubir v="300" />
+            <BandaDescer v="300" />
+            <BandaMinima v="1" />
+        </Intervalo>
+        <Intervalo>
+            <NumeroPeriodo v="25" />
+            <BandaSubir v="300" />
+            <BandaDescer v="300" />
+            <BandaMinima v="1" />
+        </Intervalo>
+        <Intervalo>
+            <NumeroPeriodo v="26" />
+            <BandaSubir v="300" />
+            <BandaDescer v="300" />
+            <BandaMinima v="1" />
+        </Intervalo>
+        <Intervalo>
+            <NumeroPeriodo v="27" />
+            <BandaSubir v="300" />
+            <BandaDescer v="300" />
+            <BandaMinima v="1" />
+        </Intervalo>
+        <Intervalo>
+            <NumeroPeriodo v="28" />
+            <BandaSubir v="300" />
+            <BandaDescer v="300" />
+            <BandaMinima v="1" />
+        </Intervalo>
+        <Intervalo>
+            <NumeroPeriodo v="29" />
+            <BandaSubir v="300" />
+            <BandaDescer v="300" />
+            <BandaMinima v="1" />
+        </Intervalo>
+        <Intervalo>
+            <NumeroPeriodo v="30" />
+            <BandaSubir v="300" />
+            <BandaDescer v="300" />
+            <BandaMinima v="1" />
+        </Intervalo>
+        <Intervalo>
+            <NumeroPeriodo v="31" />
+            <BandaSubir v="300" />
+            <BandaDescer v="300" />
+            <BandaMinima v="1" />
+        </Intervalo>
+        <Intervalo>
+            <NumeroPeriodo v="32" />
+            <BandaSubir v="300" />
+            <BandaDescer v="300" />
+            <BandaMinima v="1" />
+        </Intervalo>
+        <Intervalo>
+            <NumeroPeriodo v="33" />
+            <BandaSubir v="300" />
+            <BandaDescer v="300" />
+            <BandaMinima v="1" />
+        </Intervalo>
+        <Intervalo>
+            <NumeroPeriodo v="34" />
+            <BandaSubir v="300" />
+            <BandaDescer v="300" />
+            <BandaMinima v="1" />
+        </Intervalo>
+        <Intervalo>
+            <NumeroPeriodo v="35" />
+            <BandaSubir v="300" />
+            <BandaDescer v="300" />
+            <BandaMinima v="1" />
+        </Intervalo>
+        <Intervalo>
+            <NumeroPeriodo v="36" />
+            <BandaSubir v="300" />
+            <BandaDescer v="300" />
+            <BandaMinima v="1" />
+        </Intervalo>
+        <Intervalo>
+            <NumeroPeriodo v="37" />
+            <BandaSubir v="300" />
+            <BandaDescer v="300" />
+            <BandaMinima v="1" />
+        </Intervalo>
+        <Intervalo>
+            <NumeroPeriodo v="38" />
+            <BandaSubir v="300" />
+            <BandaDescer v="300" />
+            <BandaMinima v="1" />
+        </Intervalo>
+        <Intervalo>
+            <NumeroPeriodo v="39" />
+            <BandaSubir v="300" />
+            <BandaDescer v="300" />
+            <BandaMinima v="1" />
+        </Intervalo>
+        <Intervalo>
+            <NumeroPeriodo v="40" />
+            <BandaSubir v="300" />
+            <BandaDescer v="300" />
+            <BandaMinima v="1" />
+        </Intervalo>
+        <Intervalo>
+            <NumeroPeriodo v="41" />
+            <BandaSubir v="300" />
+            <BandaDescer v="300" />
+            <BandaMinima v="1" />
+        </Intervalo>
+        <Intervalo>
+            <NumeroPeriodo v="42" />
+            <BandaSubir v="300" />
+            <BandaDescer v="300" />
+            <BandaMinima v="1" />
+        </Intervalo>
+        <Intervalo>
+            <NumeroPeriodo v="43" />
+            <BandaSubir v="300" />
+            <BandaDescer v="300" />
+            <BandaMinima v="1" />
+        </Intervalo>
+        <Intervalo>
+            <NumeroPeriodo v="44" />
+            <BandaSubir v="300" />
+            <BandaDescer v="300" />
+            <BandaMinima v="1" />
+        </Intervalo>
+        <Intervalo>
+            <NumeroPeriodo v="45" />
+            <BandaSubir v="300" />
+            <BandaDescer v="300" />
+            <BandaMinima v="1" />
+        </Intervalo>
+        <Intervalo>
+            <NumeroPeriodo v="46" />
+            <BandaSubir v="300" />
+            <BandaDescer v="300" />
+            <BandaMinima v="1" />
+        </Intervalo>
+        <Intervalo>
+            <NumeroPeriodo v="47" />
+            <BandaSubir v="300" />
+            <BandaDescer v="300" />
+            <BandaMinima v="1" />
+        </Intervalo>
+        <Intervalo>
+            <NumeroPeriodo v="48" />
+            <BandaSubir v="300" />
+            <BandaDescer v="300" />
+            <BandaMinima v="1" />
+        </Intervalo>
+        <Intervalo>
+            <NumeroPeriodo v="49" />
+            <BandaSubir v="300" />
+            <BandaDescer v="300" />
+            <BandaMinima v="1" />
+        </Intervalo>
+        <Intervalo>
+            <NumeroPeriodo v="50" />
+            <BandaSubir v="300" />
+            <BandaDescer v="300" />
+            <BandaMinima v="1" />
+        </Intervalo>
+        <Intervalo>
+            <NumeroPeriodo v="51" />
+            <BandaSubir v="300" />
+            <BandaDescer v="300" />
+            <BandaMinima v="1" />
+        </Intervalo>
+        <Intervalo>
+            <NumeroPeriodo v="52" />
+            <BandaSubir v="300" />
+            <BandaDescer v="300" />
+            <BandaMinima v="1" />
+        </Intervalo>
+        <Intervalo>
+            <NumeroPeriodo v="53" />
+            <BandaSubir v="300" />
+            <BandaDescer v="300" />
+            <BandaMinima v="1" />
+        </Intervalo>
+        <Intervalo>
+            <NumeroPeriodo v="54" />
+            <BandaSubir v="300" />
+            <BandaDescer v="300" />
+            <BandaMinima v="1" />
+        </Intervalo>
+        <Intervalo>
+            <NumeroPeriodo v="55" />
+            <BandaSubir v="300" />
+            <BandaDescer v="300" />
+            <BandaMinima v="1" />
+        </Intervalo>
+        <Intervalo>
+            <NumeroPeriodo v="56" />
+            <BandaSubir v="300" />
+            <BandaDescer v="300" />
+            <BandaMinima v="1" />
+        </Intervalo>
+        <Intervalo>
+            <NumeroPeriodo v="57" />
+            <BandaSubir v="300" />
+            <BandaDescer v="300" />
+            <BandaMinima v="1" />
+        </Intervalo>
+        <Intervalo>
+            <NumeroPeriodo v="58" />
+            <BandaSubir v="300" />
+            <BandaDescer v="300" />
+            <BandaMinima v="1" />
+        </Intervalo>
+        <Intervalo>
+            <NumeroPeriodo v="59" />
+            <BandaSubir v="300" />
+            <BandaDescer v="300" />
+            <BandaMinima v="1" />
+        </Intervalo>
+        <Intervalo>
+            <NumeroPeriodo v="60" />
+            <BandaSubir v="300" />
+            <BandaDescer v="300" />
+            <BandaMinima v="1" />
+        </Intervalo>
+        <Intervalo>
+            <NumeroPeriodo v="61" />
+            <BandaSubir v="300" />
+            <BandaDescer v="300" />
+            <BandaMinima v="1" />
+        </Intervalo>
+        <Intervalo>
+            <NumeroPeriodo v="62" />
+            <BandaSubir v="300" />
+            <BandaDescer v="300" />
+            <BandaMinima v="1" />
+        </Intervalo>
+        <Intervalo>
+            <NumeroPeriodo v="63" />
+            <BandaSubir v="300" />
+            <BandaDescer v="300" />
+            <BandaMinima v="1" />
+        </Intervalo>
+        <Intervalo>
+            <NumeroPeriodo v="64" />
+            <BandaSubir v="300" />
+            <BandaDescer v="300" />
+            <BandaMinima v="1" />
+        </Intervalo>
+        <Intervalo>
+            <NumeroPeriodo v="65" />
+            <BandaSubir v="300" />
+            <BandaDescer v="300" />
+            <BandaMinima v="1" />
+        </Intervalo>
+        <Intervalo>
+            <NumeroPeriodo v="66" />
+            <BandaSubir v="300" />
+            <BandaDescer v="300" />
+            <BandaMinima v="1" />
+        </Intervalo>
+        <Intervalo>
+            <NumeroPeriodo v="67" />
+            <BandaSubir v="300" />
+            <BandaDescer v="300" />
+            <BandaMinima v="1" />
+        </Intervalo>
+        <Intervalo>
+            <NumeroPeriodo v="68" />
+            <BandaSubir v="300" />
+            <BandaDescer v="300" />
+            <BandaMinima v="1" />
+        </Intervalo>
+        <Intervalo>
+            <NumeroPeriodo v="69" />
+            <BandaSubir v="300" />
+            <BandaDescer v="300" />
+            <BandaMinima v="1" />
+        </Intervalo>
+        <Intervalo>
+            <NumeroPeriodo v="70" />
+            <BandaSubir v="300" />
+            <BandaDescer v="300" />
+            <BandaMinima v="1" />
+        </Intervalo>
+        <Intervalo>
+            <NumeroPeriodo v="71" />
+            <BandaSubir v="300" />
+            <BandaDescer v="300" />
+            <BandaMinima v="1" />
+        </Intervalo>
+        <Intervalo>
+            <NumeroPeriodo v="72" />
+            <BandaSubir v="300" />
+            <BandaDescer v="300" />
+            <BandaMinima v="1" />
+        </Intervalo>
+        <Intervalo>
+            <NumeroPeriodo v="73" />
+            <BandaSubir v="300" />
+            <BandaDescer v="300" />
+            <BandaMinima v="1" />
+        </Intervalo>
+        <Intervalo>
+            <NumeroPeriodo v="74" />
+            <BandaSubir v="300" />
+            <BandaDescer v="300" />
+            <BandaMinima v="1" />
+        </Intervalo>
+        <Intervalo>
+            <NumeroPeriodo v="75" />
+            <BandaSubir v="300" />
+            <BandaDescer v="300" />
+            <BandaMinima v="1" />
+        </Intervalo>
+        <Intervalo>
+            <NumeroPeriodo v="76" />
+            <BandaSubir v="300" />
+            <BandaDescer v="300" />
+            <BandaMinima v="1" />
+        </Intervalo>
+        <Intervalo>
+            <NumeroPeriodo v="77" />
+            <BandaSubir v="300" />
+            <BandaDescer v="300" />
+            <BandaMinima v="1" />
+        </Intervalo>
+        <Intervalo>
+            <NumeroPeriodo v="78" />
+            <BandaSubir v="300" />
+            <BandaDescer v="300" />
+            <BandaMinima v="1" />
+        </Intervalo>
+        <Intervalo>
+            <NumeroPeriodo v="79" />
+            <BandaSubir v="300" />
+            <BandaDescer v="300" />
+            <BandaMinima v="1" />
+        </Intervalo>
+        <Intervalo>
+            <NumeroPeriodo v="80" />
+            <BandaSubir v="300" />
+            <BandaDescer v="300" />
+            <BandaMinima v="1" />
+        </Intervalo>
+        <Intervalo>
+            <NumeroPeriodo v="81" />
+            <BandaSubir v="300" />
+            <BandaDescer v="300" />
+            <BandaMinima v="1" />
+        </Intervalo>
+        <Intervalo>
+            <NumeroPeriodo v="82" />
+            <BandaSubir v="300" />
+            <BandaDescer v="300" />
+            <BandaMinima v="1" />
+        </Intervalo>
+        <Intervalo>
+            <NumeroPeriodo v="83" />
+            <BandaSubir v="300" />
+            <BandaDescer v="300" />
+            <BandaMinima v="1" />
+        </Intervalo>
+        <Intervalo>
+            <NumeroPeriodo v="84" />
+            <BandaSubir v="300" />
+            <BandaDescer v="300" />
+            <BandaMinima v="1" />
+        </Intervalo>
+        <Intervalo>
+            <NumeroPeriodo v="85" />
+            <BandaSubir v="300" />
+            <BandaDescer v="300" />
+            <BandaMinima v="1" />
+        </Intervalo>
+        <Intervalo>
+            <NumeroPeriodo v="86" />
+            <BandaSubir v="300" />
+            <BandaDescer v="300" />
+            <BandaMinima v="1" />
+        </Intervalo>
+        <Intervalo>
+            <NumeroPeriodo v="87" />
+            <BandaSubir v="300" />
+            <BandaDescer v="300" />
+            <BandaMinima v="1" />
+        </Intervalo>
+        <Intervalo>
+            <NumeroPeriodo v="88" />
+            <BandaSubir v="300" />
+            <BandaDescer v="300" />
+            <BandaMinima v="1" />
+        </Intervalo>
+        <Intervalo>
+            <NumeroPeriodo v="89" />
+            <BandaSubir v="300" />
+            <BandaDescer v="300" />
+            <BandaMinima v="1" />
+        </Intervalo>
+        <Intervalo>
+            <NumeroPeriodo v="90" />
+            <BandaSubir v="300" />
+            <BandaDescer v="300" />
+            <BandaMinima v="1" />
+        </Intervalo>
+        <Intervalo>
+            <NumeroPeriodo v="91" />
+            <BandaSubir v="300" />
+            <BandaDescer v="300" />
+            <BandaMinima v="1" />
+        </Intervalo>
+        <Intervalo>
+            <NumeroPeriodo v="92" />
+            <BandaSubir v="300" />
+            <BandaDescer v="300" />
+            <BandaMinima v="1" />
+        </Intervalo>
+        <Intervalo>
+            <NumeroPeriodo v="93" />
+            <BandaSubir v="300" />
+            <BandaDescer v="300" />
+            <BandaMinima v="1" />
+        </Intervalo>
+        <Intervalo>
+            <NumeroPeriodo v="94" />
+            <BandaSubir v="300" />
+            <BandaDescer v="300" />
+            <BandaMinima v="1" />
+        </Intervalo>
+        <Intervalo>
+            <NumeroPeriodo v="95" />
+            <BandaSubir v="300" />
+            <BandaDescer v="300" />
+            <BandaMinima v="1" />
+        </Intervalo>
+        <Intervalo>
+            <NumeroPeriodo v="96" />
+            <BandaSubir v="300" />
+            <BandaDescer v="300" />
+            <BandaMinima v="1" />
+        </Intervalo>
+    </Periodo>
+</MensagemNecBandaFRR>

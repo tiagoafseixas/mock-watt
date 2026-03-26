@@ -1,9 +1,13 @@
 import argparse
+import logging
+import os
+import ssl
 import sys
+from datetime import datetime
+
 import requests
 import urllib3
-import os
-from datetime import datetime
+import uvicorn
 from lxml import etree
 
 # Suppress insecure request warnings for local testing
@@ -46,14 +50,15 @@ def execute_request(
         resolved_noun = noun if noun else _detect_noun(raw_xml)
         print(f"📋 Verb: {verb} / Noun: {resolved_noun}")
 
-        # 3. Cryptographically sign the payload
-        print("🔒 Signing payload (Exclusive C14N + XML-DSig)...")
+        # 3. Build unsigned RequestMessage, sign it, wrap in SOAP envelope
+        print("✉️  Building SOAP 1.2 RequestMessage envelope...")
         security = SecurityEngine(key_path=key_path, cert_path=cert_path)
-        signed_xml = security.sign_payload(raw_xml)
+        req_msg = SoapBuilder.build_request_message(verb, resolved_noun, raw_xml)
 
-        # 4. Wrap in SOAP 1.2 + IEC TC57 RequestMessage envelope
-        print("✉️  Wrapping in SOAP 1.2 RequestMessage envelope...")
-        soap_envelope = SoapBuilder.wrap_request_message(verb, resolved_noun, signed_xml)
+        print("🔒 Signing RequestMessage (Inclusive C14N + XML-DSig)...")
+        security.sign_request_message(req_msg)
+
+        soap_envelope = SoapBuilder.wrap_in_envelope(req_msg)
 
         # 5. Optionally save the outgoing request envelope to data/outbound/
         if store_request:
@@ -101,6 +106,45 @@ def execute_request(
         print(f"\n❌ Execution Failed: {str(e)}")
         sys.exit(1)
 
+
+def execute_serve(
+    cert_path: str,
+    key_path: str,
+    ca_path: str | None = None,
+    host: str = "0.0.0.0",
+    port: int = 8443,
+):
+    """Starts the Mock-Watt IEC 62325-504 gateway server with mTLS."""
+    from server.app import app, configure
+
+    print(f"⚡ Mock-Watt Gateway Server")
+    print(f"--------------------------------------------------")
+    print(f"🔒 Server cert:  {cert_path}")
+    print(f"🔑 Server key:   {key_path}")
+    print(f"🏛️  Root CA:      {ca_path or 'not set (mTLS disabled)'}")
+    print(f"🌐 Listening on: https://{host}:{port}/ws504")
+    print(f"--------------------------------------------------")
+
+    configure(ca_cert_path=ca_path)
+
+    logging.basicConfig(
+        level=logging.DEBUG,
+        format="%(levelname)s [%(name)s] %(message)s",
+    )
+
+    ssl_cert_reqs = ssl.CERT_REQUIRED if ca_path else ssl.CERT_NONE
+
+    uvicorn.run(
+        app,
+        host=host,
+        port=port,
+        ssl_certfile=cert_path,
+        ssl_keyfile=key_path,
+        ssl_ca_certs=ca_path,
+        ssl_cert_reqs=ssl_cert_reqs,
+    )
+
+
 def main():
     """Entry point for the 'mock-watt' CLI command."""
     parser = argparse.ArgumentParser(description="Mock-Watt: IEC 62325-504 CLI Simulator")
@@ -117,6 +161,13 @@ def main():
     send_parser.add_argument("--store-request", action="store_true", help="Save the outbound SOAP envelope to data/outbound/")
     send_parser.add_argument("--store-response", action="store_true", help="Save the server response to data/inbound/")
 
+    serve_parser = subparsers.add_parser("serve", help="Start the Mock-Watt gateway server")
+    serve_parser.add_argument("--cert", required=True, help="Path to server certificate (.pem)")
+    serve_parser.add_argument("--key", required=True, help="Path to server private key (.key)")
+    serve_parser.add_argument("--ca", required=False, help="Path to Root CA for mTLS client verification (.pem)")
+    serve_parser.add_argument("--host", default="0.0.0.0", help="Bind host (default: 0.0.0.0)")
+    serve_parser.add_argument("--port", type=int, default=8443, help="Bind port (default: 8443)")
+
     args = parser.parse_args()
 
     if args.command == "send":
@@ -130,6 +181,14 @@ def main():
             noun=args.noun,
             store_request=args.store_request,
             store_response=args.store_response,
+        )
+    elif args.command == "serve":
+        execute_serve(
+            cert_path=args.cert,
+            key_path=args.key,
+            ca_path=args.ca,
+            host=args.host,
+            port=args.port,
         )
     else:
         parser.print_help()
