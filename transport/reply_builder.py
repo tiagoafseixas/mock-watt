@@ -19,28 +19,28 @@ class ReplyBuilder:
     @staticmethod
     def build_reply_message(noun: str, code: str, text: str) -> bytes:
         """
-        Builds a SOAP 1.2 mes:ReplyMessage envelope.
+        Builds a SOAP 1.2 mes:ResponseMessage envelope matching the TSO response structure.
 
         :param noun: Echo of the request mes:Noun.
-        :param code: Reply code — "OK" or "NOK".
+        :param code: Reply result — "OK" or "NOK".
         :param text: Human-readable description of the reply.
         :return: Serialised SOAP envelope as UTF-8 bytes.
         """
         envelope = etree.Element(f"{{{SOAP_ENV_NS}}}Envelope", nsmap=_NSMAP)
-        etree.SubElement(envelope, f"{{{SOAP_ENV_NS}}}Header")
         body = etree.SubElement(envelope, f"{{{SOAP_ENV_NS}}}Body")
 
-        reply_message = etree.SubElement(body, f"{{{IEC_MSG_NS}}}ReplyMessage")
+        response_message = etree.SubElement(body, f"{{{IEC_MSG_NS}}}ResponseMessage")
 
-        mes_header = etree.SubElement(reply_message, f"{{{IEC_MSG_NS}}}Header")
+        mes_header = etree.SubElement(response_message, f"{{{IEC_MSG_NS}}}Header")
         etree.SubElement(mes_header, f"{{{IEC_MSG_NS}}}Verb").text = "reply"
         etree.SubElement(mes_header, f"{{{IEC_MSG_NS}}}Noun").text = noun
+        etree.SubElement(mes_header, f"{{{IEC_MSG_NS}}}Context").text = "PRODUCTION"
         etree.SubElement(mes_header, f"{{{IEC_MSG_NS}}}Timestamp").text = (
-            datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+            datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3] + "Z"
         )
 
-        reply = etree.SubElement(reply_message, f"{{{IEC_MSG_NS}}}Reply")
-        etree.SubElement(reply, f"{{{IEC_MSG_NS}}}Code").text = code
+        reply = etree.SubElement(response_message, f"{{{IEC_MSG_NS}}}Reply")
+        etree.SubElement(reply, f"{{{IEC_MSG_NS}}}Result").text = code
         etree.SubElement(reply, f"{{{IEC_MSG_NS}}}Text").text = text
 
         return etree.tostring(

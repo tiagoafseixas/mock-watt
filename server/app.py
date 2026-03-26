@@ -1,11 +1,17 @@
 import logging
 import os
 from contextlib import asynccontextmanager
+from datetime import datetime, timezone
 
 from fastapi import FastAPI, Request, Response
 from lxml import etree
 
 logger = logging.getLogger("mock_watt")
+
+# signxml logs the full canonicalized XML at DEBUG level — suppress it
+logging.getLogger("signxml").setLevel(logging.WARNING)
+
+_INBOUND_DIR = os.path.join(os.getcwd(), "data", "inbound")
 
 from security.signature import SecurityEngine
 from server.schema_registry import SchemaRegistry
@@ -80,6 +86,13 @@ async def ws504(request: Request) -> Response:
     if not raw_body:
         logger.info("<ws504 -> body is empty")
         return _fault("soap:Sender", "Request body is empty")
+
+    timestamp = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S_%f")[:-3]
+    os.makedirs(_INBOUND_DIR, exist_ok=True)
+    inbound_path = os.path.join(_INBOUND_DIR, f"{timestamp}.xml")
+    with open(inbound_path, "wb") as f:
+        f.write(raw_body)
+    logger.info("Saved inbound request to %s", inbound_path)
 
     try:
         parsed = SoapParser.parse_request(raw_body)
