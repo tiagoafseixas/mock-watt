@@ -56,12 +56,32 @@ def _fault(code: str, reason: str, status: int = 400) -> Response:
     )
 
 
-def _reply(noun: str, code: str, text: str) -> Response:
+def _reply(
+    noun: str,
+    code: str,
+    text: str,
+    received_mrid: str = "",
+    received_revision: str = "",
+) -> Response:
     return Response(
-        content=ReplyBuilder.build_reply_message(noun, code, text),
+        content=ReplyBuilder.build_reply_message(noun, code, text, received_mrid, received_revision),
         status_code=200,
         media_type="application/soap+xml; charset=utf-8",
     )
+
+
+def _extract_field(element: etree._Element, tag: str) -> str:
+    """
+    Finds a direct child of element by local name and returns its 'v' attribute
+    or text content. Tries the element's own namespace first, then no namespace.
+    """
+    ns = etree.QName(element.tag).namespace
+    child = element.find(f"{{{ns}}}{tag}") if ns else element.find(tag)
+    if child is None and ns:
+        child = element.find(tag)
+    if child is None:
+        return ""
+    return (child.get("v") or child.text or "").strip()
 
 
 @app.post("/ws504")
@@ -133,5 +153,8 @@ async def ws504(request: Request) -> Response:
             f"Schema validation failed for '{root_name}': {exc}",
         )
 
-    # All gates passed — accept the message
-    return _reply(parsed.noun, "OK", "Message accepted.")
+    # All gates passed — extract document identifiers and accept the message
+    received_mrid = _extract_field(parsed.payload_element, "Identificador")
+    received_revision = _extract_field(parsed.payload_element, "Versao")
+    logger.debug("Accepting message: mrid=%r  revision=%r", received_mrid, received_revision)
+    return _reply(parsed.noun, "OK", "", received_mrid, received_revision)
