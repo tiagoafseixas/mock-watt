@@ -25,10 +25,6 @@ class TestWrapRequestMessage:
         root = etree.fromstring(self._build())
         assert root.tag == f"{{{SOAP_ENV_NS}}}Envelope"
 
-    def test_contains_soap_header(self):
-        root = etree.fromstring(self._build())
-        assert root.find(f"{{{SOAP_ENV_NS}}}Header") is not None
-
     def test_contains_soap_body(self):
         root = etree.fromstring(self._build())
         assert root.find(f"{{{SOAP_ENV_NS}}}Body") is not None

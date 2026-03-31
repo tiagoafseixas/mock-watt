@@ -19,23 +19,20 @@ class SoapBuilder:
     }
 
     @classmethod
-    def wrap_request_message(cls, verb: str, noun: str, signed_payload: bytes) -> bytes:
+    def build_request_message(cls, verb: str, noun: str, raw_payload: bytes) -> etree._Element:
         """
-        Wraps a signed CIM XML payload into a SOAP 1.2 + IEC TC57 RequestMessage envelope.
+        Builds an unsigned IEC TC57 RequestMessage lxml element.
+
+        The returned element is ready to be passed to SecurityEngine.sign_request_message()
+        before wrapping in a SOAP envelope via wrap_in_envelope().
 
         :param verb: The IEC TC57 verb (e.g. "created", "changed", "deleted").
         :param noun: The IEC TC57 noun — typically the root element name of the business document.
-        :param signed_payload: The digitally signed XML payload as bytes.
-        :return: The fully constructed SOAP envelope as bytes, ready for HTTP POST.
+        :param raw_payload: The unsigned business XML payload as bytes.
+        :return: The mes:RequestMessage lxml element.
         """
         try:
-            # 1. Build the SOAP 1.2 Envelope
-            envelope = etree.Element(f"{{{cls.SOAP_ENV_NS}}}Envelope", nsmap=cls.NSMAP)
-            etree.SubElement(envelope, f"{{{cls.SOAP_ENV_NS}}}Header")
-            body = etree.SubElement(envelope, f"{{{cls.SOAP_ENV_NS}}}Body")
-
-            # 2. IEC TC57 RequestMessage with Header (Verb / Noun / Timestamp)
-            request_message = etree.SubElement(body, f"{{{cls.IEC_MSG_NS}}}RequestMessage")
+            request_message = etree.Element(f"{{{cls.IEC_MSG_NS}}}RequestMessage", nsmap=cls.NSMAP)
 
             mes_header = etree.SubElement(request_message, f"{{{cls.IEC_MSG_NS}}}Header")
             etree.SubElement(mes_header, f"{{{cls.IEC_MSG_NS}}}Verb").text = verb
@@ -44,19 +41,44 @@ class SoapBuilder:
                 datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
             )
 
-            # 3. Inject the signed payload into <mes:Payload> as real XML nodes
-            # Note: pretty_print=False is CRITICAL — must not alter whitespace of the
-            # already-signed inner payload, or the signature will be invalidated.
             payload_node = etree.SubElement(request_message, f"{{{cls.IEC_MSG_NS}}}Payload")
-            payload_node.append(etree.fromstring(signed_payload))
+            payload_node.append(etree.fromstring(raw_payload))
 
-            # 4. Return the finalised envelope
-            return etree.tostring(
-                envelope,
-                encoding="utf-8",
-                xml_declaration=True,
-                pretty_print=False,
-            )
+            return request_message
 
         except Exception as e:
-            raise RuntimeError(f"Failed to construct the SOAP envelope: {str(e)}")
+            raise RuntimeError(f"Failed to build RequestMessage element: {e}")
+
+    @classmethod
+    def wrap_in_envelope(cls, request_message_el: etree._Element) -> bytes:
+        """
+        Wraps a RequestMessage element in a SOAP 1.2 Envelope and returns bytes.
+
+        :param request_message_el: The (optionally signed) mes:RequestMessage element.
+        :return: The fully constructed SOAP envelope as bytes, ready for HTTP POST.
+        """
+        envelope = etree.Element(f"{{{cls.SOAP_ENV_NS}}}Envelope", nsmap=cls.NSMAP)
+        body = etree.SubElement(envelope, f"{{{cls.SOAP_ENV_NS}}}Body")
+        body.append(request_message_el)
+        return etree.tostring(
+            envelope,
+            encoding="utf-8",
+            xml_declaration=True,
+            pretty_print=False,
+        )
+
+    @classmethod
+    def wrap_request_message(cls, verb: str, noun: str, raw_payload: bytes) -> bytes:
+        """
+        Convenience method: builds an unsigned RequestMessage and wraps it in a SOAP
+        envelope in one step. Use this when no signing is required (e.g. tests).
+
+        For signed outbound messages use build_request_message() + sign_request_message()
+        + wrap_in_envelope() instead.
+
+        :param verb: The IEC TC57 verb.
+        :param noun: The IEC TC57 noun.
+        :param raw_payload: The unsigned business XML payload as bytes.
+        :return: The SOAP envelope as bytes.
+        """
+        return cls.wrap_in_envelope(cls.build_request_message(verb, noun, raw_payload))
