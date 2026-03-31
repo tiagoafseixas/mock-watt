@@ -210,4 +210,7 @@ data/active_schemas/**
 data/certs/**
 data/outbound/*
 data/inbound/*
-tests/certs/*
+data/payloads/*
+
+# AI Agents
+.claude/settings.json

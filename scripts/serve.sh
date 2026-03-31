@@ -1,0 +1,1 @@
+mock-watt serve   --cert data/certs/mock-watt.pem   --key  data/certs/mock-watt.key   --ca   data/certs/rootCA.pem --port 8444
