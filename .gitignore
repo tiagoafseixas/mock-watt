@@ -207,6 +207,7 @@ marimo/_lsp/
 __marimo__/
 
 data/active_schemas/**
+data/payloads/**
 data/certs/**
 data/outbound/*
 data/inbound/*
@@ -214,3 +215,8 @@ data/payloads/*
 
 # AI Agents
 .claude/settings.json
+
+# AI Agents Folders and Files
+.claude
+GEMINI.md
+AGENTS.md
