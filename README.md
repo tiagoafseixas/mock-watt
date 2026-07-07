@@ -30,14 +30,15 @@ Historically, testing these integrations meant fighting with cryptography and bu
 * OpenSSL (for generating local testing certificates)
 
 ### 2. Installation
-Clone the repository and install the required dependencies:
+Clone the repository, then install Mock-Watt itself (editable mode) rather than just its dependencies. This registers the `mock-watt` command on your `PATH`, which is required by the scripts in `scripts/` and the CLI reference below:
 ```bash
 git clone [https://github.com/tiagoafseixas/mock-watt.git](https://github.com/tiagoafseixas/mock-watt.git)
 cd mock-watt
 python -m venv venv
 source venv/bin/activate  # On Windows: venv\Scripts\activate
-pip install -r requirements.txt
+pip install -e .
 ```
+*`pip install -e .` reads `setup.py`, installs the dependencies declared there, and creates the `mock-watt` console script. Skipping this step and only running `pip install -r requirements.txt` will leave the `mock-watt` command unavailable.*
 
 ### 3. Generate Local Test Certificates (PKI)
 Because Mock-Watt enforces strict mutual TLS (mTLS) and XML signing, you need local dummy certificates. We have provided a script to generate a local Root CA and the necessary client/server keys.
@@ -53,11 +54,13 @@ chmod +x generate_certs.sh
 Place the `.xsd` file for the specific energy market process you want to test (e.g., balancing, scheduling, acknowledgements) into the `data/active_schemas/` directory. Mock-Watt will automatically load this to validate incoming XML payloads.
 
 ### 5. Run the Server
-Start the Mock-Watt Uvicorn server, which will launch the mTLS-secured SOAP endpoint:
+Start the Mock-Watt Uvicorn server, which will launch the mTLS-secured SOAP endpoint, using the provided `scripts/serve.sh` wrapper:
 ```bash
-python mock_watt/main.py
+bash scripts/serve.sh
 ```
-*The server is now listening on `https://localhost:8443` and ready to receive your platform's signed SOAP messages.*
+*This wraps `mock-watt serve --cert data/certs/mock-watt.pem --key data/certs/mock-watt.key --ca data/certs/rootCA.pem --port 8444`. It is a shell script, not a Python one — run it with `bash`/`sh`, or `chmod +x` it and run `./scripts/serve.sh`. Running `python scripts/serve.sh` will fail with a `SyntaxError`. It also requires `mock-watt` to be installed (step 2) and points at the certificates generated in step 3 — adjust the paths/port in the script if yours differ.*
+
+*The server is now listening on `https://localhost:8444` and ready to receive your platform's signed SOAP messages.*
 
 ---
 
@@ -135,6 +138,41 @@ mock-watt send \
   --store-request \
   --store-response
 ```
+
+## 🖥️ CLI Reference — `mock-watt serve`
+
+The `serve` command starts the Mock-Watt gateway: an mTLS-secured SOAP endpoint that verifies inbound XML signatures and validates payloads against your uploaded `.xsd` schemas.
+
+```bash
+mock-watt serve [OPTIONS]
+```
+
+### Required arguments
+
+| Argument | Description |
+|---|---|
+| `--cert PATH` | Server certificate for mTLS (`.pem`) |
+| `--key PATH` | Server private key (`.key`) |
+
+### Optional arguments
+
+| Argument | Default | Description |
+|---|---|---|
+| `--ca PATH` | — | Root CA certificate for verifying client certificates |
+| `--host HOST` | `0.0.0.0` | Bind host |
+| `--port PORT` | `8443` | Bind port |
+
+### Example
+
+```bash
+mock-watt serve \
+  --cert data/certs/mock-watt.pem \
+  --key data/certs/mock-watt.key \
+  --ca data/certs/rootCA.pem \
+  --port 8444
+```
+
+*This is exactly what `scripts/serve.sh` runs — see [Run the Server](#5-run-the-server) above.*
 
 ## 🏗️ The Technology Stack
 * **Routing:** FastAPI + Uvicorn
