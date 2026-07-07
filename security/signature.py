@@ -4,8 +4,9 @@ import os
 from cryptography import x509 as cx509
 from lxml import etree
 from signxml import methods
+from signxml.algorithms import CanonicalizationMethod
 from signxml.signer import XMLSigner
-from signxml.verifier import XMLVerifier
+from signxml.verifier import SignatureConfiguration, XMLVerifier
 
 logger = logging.getLogger("mock_watt.security")
 
@@ -208,13 +209,26 @@ class SecurityEngine:
         logger.debug("Signature: c14n=%s  reference URI='%s'", c14n_alg, ref_uri)
         logger.debug("Verifying document (root tag: %s, %d bytes)", root.tag, len(signed_xml_bytes))
 
+        # When the Reference <Transforms> only has the enveloped-signature transform and no
+        # explicit C14N transform, signxml falls back to its default (C14N 1.1). Many
+        # real-world implementations (including the REN WS504 gateway) follow the convention
+        # that the SignedInfo/CanonicalizationMethod also applies to reference data, and omit
+        # the C14N transform from Transforms. We honour that convention here.
+        try:
+            ref_c14n_method = CanonicalizationMethod(c14n_alg)
+        except ValueError:
+            ref_c14n_method = CanonicalizationMethod.CANONICAL_XML_1_1
+        verifier_config = SignatureConfiguration(default_reference_c14n_method=ref_c14n_method)
+
         verifier = XMLVerifier()
         try:
             if ca_cert_path:
-                result = verifier.verify(root, x509_cert=cert_pem, ca_pem_file=ca_cert_path)
+                result = verifier.verify(
+                    root, x509_cert=cert_pem, ca_pem_file=ca_cert_path, expect_config=verifier_config
+                )
             else:
                 # Verify signature math only — no chain validation
-                result = verifier.verify(root, x509_cert=cert_pem)
+                result = verifier.verify(root, x509_cert=cert_pem, expect_config=verifier_config)
             logger.debug("Signature verified OK (signed root: %s)", result.signed_xml.tag)
             return etree.tostring(result.signed_xml, encoding="utf-8")
         except Exception as e:

@@ -104,6 +104,49 @@ class ReplyBuilder:
         )
 
     @staticmethod
+    def build_soap_fault_with_detail(code: str, reason: str) -> bytes:
+        """
+        Builds a SOAP 1.2 soap:Fault envelope that includes a soap:Detail/FaultMessage
+        block, matching the TSO rejection format (e.g. business-level A02 errors).
+
+        :param code: SOAP fault code (e.g. "soap:Receiver").
+        :param reason: Human-readable fault description.
+        :return: Serialised SOAP fault envelope as UTF-8 bytes.
+        """
+        IEC_504_NS = "urn:iec62325.504:messages:1:0"
+        envelope = etree.Element(f"{{{SOAP_ENV_NS}}}Envelope", nsmap=_NSMAP)
+        body = etree.SubElement(envelope, f"{{{SOAP_ENV_NS}}}Body")
+
+        fault = etree.SubElement(body, f"{{{SOAP_ENV_NS}}}Fault")
+
+        fault_code = etree.SubElement(fault, f"{{{SOAP_ENV_NS}}}Code")
+        etree.SubElement(fault_code, f"{{{SOAP_ENV_NS}}}Value").text = code
+
+        fault_reason = etree.SubElement(fault, f"{{{SOAP_ENV_NS}}}Reason")
+        reason_text = etree.SubElement(fault_reason, f"{{{SOAP_ENV_NS}}}Text")
+        reason_text.set("{http://www.w3.org/XML/1998/namespace}lang", "en")
+        reason_text.text = reason
+
+        detail = etree.SubElement(fault, f"{{{SOAP_ENV_NS}}}Detail")
+        fault_message = etree.SubElement(
+            detail,
+            f"{{{IEC_MSG_NS}}}FaultMessage",
+            nsmap={"ns2": IEC_504_NS},
+        )
+        reply = etree.SubElement(fault_message, f"{{{IEC_MSG_NS}}}Reply")
+        etree.SubElement(reply, f"{{{IEC_MSG_NS}}}Result").text = "FAILED"
+        error = etree.SubElement(reply, f"{{{IEC_MSG_NS}}}Error")
+        etree.SubElement(error, f"{{{IEC_MSG_NS}}}code").text = "A02"
+        etree.SubElement(error, f"{{{IEC_MSG_NS}}}details").text = reason
+
+        return etree.tostring(
+            envelope,
+            encoding="utf-8",
+            xml_declaration=True,
+            pretty_print=False,
+        )
+
+    @staticmethod
     def build_soap_fault(code: str, reason: str) -> bytes:
         """
         Builds a SOAP 1.2 soap:Fault envelope for transport-level errors.

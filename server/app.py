@@ -1,9 +1,10 @@
 import logging
 import os
 from contextlib import asynccontextmanager
+from typing import Annotated
 from datetime import datetime, timezone
 
-from fastapi import FastAPI, Request, Response
+from fastapi import FastAPI, Query, Request, Response
 from lxml import etree
 
 logger = logging.getLogger("mock_watt")
@@ -85,8 +86,16 @@ def _extract_field(element: etree._Element, tag: str) -> str:
 
 
 @app.post("/ws504")
-async def ws504(request: Request) -> Response:
+async def ws504(request: Request, return_error: Annotated[bool, Query()] = False) -> Response:
     logger.info(">ws504")
+    if return_error:
+        msg = "Test error message"
+        logger.info("<ws504 -> forced error response via return_error param")
+        return Response(
+            content=ReplyBuilder.build_soap_fault_with_detail("soap:Receiver", msg),
+            status_code=500,
+            media_type="application/soap+xml; charset=utf-8",
+        )
     # ------------------------------------------------------------------ #
     # Gate 1 — Transport & Security                                        #
     # ------------------------------------------------------------------ #

@@ -45,9 +45,21 @@ openssl x509 -req -in "$CERT_DIR/mock-watt.csr" \
     -days 365 -sha256 2>/dev/null
 
 # ---------------------------------------------------------
-# 4. Cleanup temporary files
+# 4. Bundle the certificate and key into a PKCS#12 (.p12) file
 # ---------------------------------------------------------
-echo "🧹 4. Cleaning up certificate signing requests..."
+echo "📦 4. Creating PKCS#12 bundle (mock-watt.p12)..."
+openssl pkcs12 -export \
+    -inkey "$CERT_DIR/mock-watt.key" \
+    -in "$CERT_DIR/mock-watt.pem" \
+    -certfile "$CERT_DIR/rootCA.pem" \
+    -name "mock-watt" \
+    -out "$CERT_DIR/mock-watt.p12" \
+    -passout pass:'IndieEnergy!' 2>/dev/null
+
+# ---------------------------------------------------------
+# 5. Cleanup temporary files
+# ---------------------------------------------------------
+echo "🧹 5. Cleaning up certificate signing requests..."
 rm -f "$CERT_DIR/mock-watt.csr"
 rm -f "$CERT_DIR/rootCA.srl"
 
@@ -59,4 +71,5 @@ echo "  - rootCA.pem      (Add this to your platform's Trust Store for mTLS)"
 echo "  - rootCA.key      (Keep secret, used to sign other test certs)"
 echo "  - mock-watt.pem   (The Mock-Watt public certificate)"
 echo "  - mock-watt.key   (The Mock-Watt private key used for XML-DSig)"
+echo "  - mock-watt.p12   (PKCS#12 bundle, password: IndieEnergy!)"
 echo "--------------------------------------------------"
